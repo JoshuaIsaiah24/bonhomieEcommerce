@@ -1,0 +1,50 @@
+USER MODEL:
+
+Store information about users such as username, email, password (hashed), shipping addresses, and billing information.
+
+PRODUCT MODEL:
+
+Represent each product in your inventory. Include fields like name, description, price, stock quantity, and product images.
+
+CATEGORY MODEL:
+
+Categorize products for easier navigation and organization. A category can have a name, description, and a relationship with products.
+
+ORDER MODEL:
+
+Track orders placed by users. Include fields such as order date, user reference, and total price.
+
+ORDERITEM MODEL:
+
+Represent individual items within an order. Include information such as the product, quantity, and price at the time of purchase.
+
+CART MODEL:
+
+Track the items that a user has added to their shopping cart before completing a purchase. Include a relationship with the user and the\
+products.
+
+ADDRESS MODEL:
+
+Store shipping and billing addresses for users. Consider having a foreign key relationship with the user model.
+
+PAYMENT MODEL:
+
+Store information related to payments, including payment method, transaction status, and reference to the order.
+
+REVIEW/RATING MODEL:
+
+Allow users to leave reviews and ratings for products. Include fields for the user, product, rating, and comments.
+
+COUPON/DISCOUNT MODEL:
+
+If your e-commerce platform supports discounts or coupons, create a model to represent them. Include fields like code,\
+discount percentage, and expiration date.
+
+SHIPPING MODEL:
+
+Store information about shipping methods, rates, and carriers.
+
+PROMOTION MODEL:
+
+If your e-commerce site supports promotional campaigns, create a model to represent promotions. Include fields for the promotion name,\
+discount, start date, and end date.
