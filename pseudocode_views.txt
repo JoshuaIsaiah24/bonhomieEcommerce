@@ -1,0 +1,8 @@
+1. Users can log in to their own account
+2. Users can check their cart and the existing items
+3. Users can browse items through categories (or not)
+4. There are featured items and items on sale
+5. Users can select multiple payment methods
+6. Users can select an address for delivery
+7. Users can have an option of express and standard delivery
+8. Cart will flush once the order has been requested
