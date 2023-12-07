@@ -6,5 +6,5 @@ urlpatters = [
     path('products', views.Productview.as_view()),
     path('orders', views.OrderView.as_view()),
     path('Cart', views.CartView.as_view()),
-    
+
 ]
