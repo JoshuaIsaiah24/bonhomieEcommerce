@@ -28,18 +28,24 @@ class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     order_date = models.DateTimeField(db_index=True)
     order_id = models.CharField(max_length=10, unique=True)
-    express_order = models.BooleanField()
+    express_order = models.BooleanField(default=False)
     total_price = models.DecimalField(max_digits=6, decimal_places=2)
+    
+    def get_delivery_date(self):
+        if self.express_order:
+            return ("Express Delivery: Your order will arrive in the next 48 hours")
+        else:
+            return ("Standard delivery: Your order will arrive in 10 days")
 
 class Orderitem(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    order_id = models.ForeignKey(Order, on_delete=models.CASCADE)
     product_name = models.ForeignKey(Products, on_delete=models.PROTECT)
     quantity = models.SmallIntegerField()
     unit_price = models.DecimalField(max_digits=6, decimal_places=2, null=True)
     total_price = models.DecimalField(max_digits=6, decimal_places=2)
     
     class Meta:
-        unique_together = ('product_name', 'order')
+        unique_together = ('product_name', 'order_id')
     
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
