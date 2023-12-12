@@ -84,7 +84,8 @@ class Payment(models.Model):
 class Ratings(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product_name = models.ForeignKey(Products, on_delete=models.CASCADE)
-    rating = models.IntegerField(default=1)
+    rating = models.IntegerField(default=0)
+    comment = models.TextField(max_length=1000, null=False)
 
 class DiscountCode(models.Model):
     discount_code = models.CharField(max_length=10, db_index=True)

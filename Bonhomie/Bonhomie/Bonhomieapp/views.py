@@ -1,7 +1,9 @@
 from django.shortcuts import render
-from rest_framework import generics
+from rest_framework import generics, viewsets
 from .models import User, Category, Products, Order, Orderitem, Cart
+from .models import Ratings
 from .serializers import UserSerializer, CategorySerializer, ProductSeriliazer, OrderSerializer, OrderItemSerializer, CartSerializer
+from .serializers import RatingSerializer
 from decimal import Decimal
 from rest_framework.response import Response
 from rest_framework import status
@@ -35,15 +37,12 @@ class OrderView(generics.ListCreateAPIView):
                 quantity=cart_item.quantity,
                 unit_price=cart_item.unit_price,
                 total_price= cart_item.total_price,
-                order=order
-            )
+                order=order)
             cart_item.delete()
             
-        return Response(
+        return Response (
             data={'message':'Product/s successfully ordered'},
-            status=status.HTTP_201_CREATED
-            
-        )
+            status=status.HTTP_201_CREATED)
     
     def calculate_total(self, cart_items):
         total = Decimal(0)
@@ -70,4 +69,9 @@ class CartView(generics.ListCreateAPIView):
         user = self.request.user
         Cart.objects.filter(user=user).delete()
         return Response({'Message' : 'Successfully deleted item/s'}, status=status.HTTP_204_NO_CONTENT)
+    
+class RatingView(viewsets.Modelviewset):
+    queryset = Ratings.objects.all()
+    serializer_class = RatingSerializer
+    
         
