@@ -21,6 +21,7 @@ from django.urls import path, include
 
 router = DefaultRouter()
 router.register(r'ratings', views.RatingView, basename = 'ratings')
+router.register(r'checkout-session', views.CheckoutSessionViewSet, basename='checkout-session')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
