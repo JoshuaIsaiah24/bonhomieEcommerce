@@ -7,6 +7,8 @@ from .serializers import RatingSerializer
 from decimal import Decimal
 from rest_framework.response import Response
 from rest_framework import status
+import stripe
+
 # Create your views here.
 
 class CategoryView(generics.ListCreateAPIView):
@@ -73,5 +75,33 @@ class CartView(generics.ListCreateAPIView):
 class RatingView(viewsets.Modelviewset):
     queryset = Ratings.objects.all()
     serializer_class = RatingSerializer
+    
+class CheckoutSessionViewSet(viewsets.ViewSet):
+    def create(self, request):
+        user_cart_items = Cart.objects.filter(user=request.user)
+
+        line_items = []
+        for cart_item in user_cart_items:
+            line_items.append({
+                'price_data': {
+                    'currency': 'usd',
+                    'product_data': {
+                        'name': cart_item.product.product_name,
+                        'description': cart_item.product.description,
+                    },
+                    'unit_amount': int(cart_item.product.price * 100),
+                },
+                'quantity': cart_item.quantity,
+            })
+
+        checkout_session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=line_items,
+            mode='payment',
+            success_url=request.build_absolute_uri('success/'),
+            cancel_url=request.build_absolute_uri('cancel/'),
+        )
+
+        return Response({'url': checkout_session.url})
     
         
