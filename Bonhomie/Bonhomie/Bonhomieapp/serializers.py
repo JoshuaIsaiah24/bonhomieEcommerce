@@ -48,6 +48,14 @@ class CartSerializer(serializers.Serializer):
     class Meta:
         model= Cart
         fields = '__all__'
+        
+class RatingSerializer(serializers.Serializer):
+    user = serializers.CharField(source = User.username, read_only=True)
+    product_name = serializers.CharField(source = Products.product_name, read_only=True)
+    
+    class Meta:
+        model = Ratings
+        fields = '__all__'
 
 
 
