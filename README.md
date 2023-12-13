@@ -1,6 +1,6 @@
 # bonhomieEcommerce
 
-The goal of this project is to showcase my skill in creating the backend layer of an E commerce website. This website has the following functions from:
+The goal of this project is to showcase my skill in creating the backend layer of an E commerce website. This website has the following functions:
 
 1. Products that are featured/on flash sale/newly added.
 2. Users can log in to their own account.
