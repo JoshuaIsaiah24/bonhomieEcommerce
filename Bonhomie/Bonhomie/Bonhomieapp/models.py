@@ -26,16 +26,17 @@ class Products(models.Model):
     
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    order_date = models.DateTimeField(db_index=True)
+    order_date = models.DateTimeField(db_index=True, auto_now_add=True)
     order_id = models.CharField(max_length=10, unique=True)
-    express_order = models.BooleanField(default=False)
     total_price = models.DecimalField(max_digits=6, decimal_places=2)
+    Shipping = models.ForeignKey(Shipping, on_delete=models.CASCADE)
     
     def get_delivery_date(self):
-        if self.express_order:
+        if self.shipping.express_delivery:
             return ("Express Delivery: Your order will arrive in the next 48 hours")
         else:
-            return ("Standard delivery: Your order will arrive in 10 days")
+            return ("Standard Delivery: Your order will arrive in 10 days")
+
 
 class Orderitem(models.Model):
     order_id = models.ForeignKey(Order, on_delete=models.CASCADE)
@@ -92,19 +93,12 @@ class DiscountCode(models.Model):
     discount_percentage = models.IntegerField(max_length=2, db_index=True)
     activation_date = models.DateTimeField()
     expiration_date = models.DateTimeField()
-    
-class ShippingCarriers(models.Model):
-    carriers = models.CharField(max_length=255, db_index=True)
-    
-class ShippingMethod(models.Model):
-    slug = models.SlugField()
-    shipping_method = models.CharField(max_length=100, db_index=True) 
-       
-class Shipping(models.Model):
-    carriers = models.ForeignKey(ShippingCarriers, on_delete=models.CASCADE)
-    rates = models.DecimalField(max_digits=3, decimal_places=2)
-    shipping_methods = models.ForeignKey(ShippingMethod, on_delete=models.CASCADE, db_index=True)
 
+class Shipping(models.Model):
+    carriers = models.CharField(max_length=100, db_index=True)
+    rates = models.DecimalField(max_digits=3, decimal_places=2)
+    express_delivery = models.BooleanField(default=False)
+    
 class Promotions(models.Model):
     promotion_name = models.CharField(max_length=255, db_index=True)
     start_date = models.DateTimeField()
