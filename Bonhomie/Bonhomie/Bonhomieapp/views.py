@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework import generics, viewsets
+from rest_framework import generics, viewsets, status
 from .models import User, Category, Products, Order, Orderitem, Cart
 from .models import Ratings
 from .serializers import UserSerializer, CategorySerializer, ProductSeriliazer, OrderSerializer, OrderItemSerializer, CartSerializer
@@ -23,29 +23,33 @@ class OrderView(generics.ListCreateAPIView):
     serializer_class = OrderSerializer
     
     def get_queryset(self):
-        user = self.request.user
-        return Order.objects.filter(user=user)
+        return Order.objects.filter(user=self.request.user)
     
-    def perform_create(self, request, *args, **kwargs):
-        cart_items = Cart.objects.filter(user=request.user)
+    def perform_create(self, serializer):
+        cart_items = Cart.objects.filter(user=self.request.user)
         total = self.calculate_total(cart_items)
-        serializer = self.get_serializer(data=request.data)
-        express_order = request.data.get('express_order', False)
-        order = serializer.save(user=request.user, total=total, express_order=express_order)
         
-        for cart_item in cart_items:
-            Orderitem.objects.create(
-                product=cart_item.product,
-                quantity=cart_item.quantity,
-                unit_price=cart_item.unit_price,
-                total_price= cart_item.total_price,
-                order=order)
-            cart_item.delete()
+        express_delivery = self.request.data.get('express_delivery', False)
+        
+        try:
+            order = serializer.save(user=self.request.user, total=total, express_delivery=express_delivery)
             
-        return Response (
-            data={'message':'Product/s successfully ordered'},
-            status=status.HTTP_201_CREATED)
-    
+            for cart_item in cart_items:
+                Orderitem.objects.create(
+                    product=cart_item.product,
+                    quantity=cart_item.quantity,
+                    unit_price=cart_item.unit_price,
+                    total_price= cart_item.total_price,
+                    order=order)
+                cart_item.delete()
+                
+            return Response (
+                data={'message':'Product/s successfully ordered'},
+                status=status.HTTP_201_CREATED)
+            
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            
     def calculate_total(self, cart_items):
         total = Decimal(0)
         for item in cart_items:
@@ -68,8 +72,7 @@ class CartView(generics.ListCreateAPIView):
         serializer.save(user=self.request.user, total_price=total_price)
     
     def delete(self,request):
-        user = self.request.user
-        Cart.objects.filter(user=user).delete()
+        Cart.objects.filter(user=self.request.user).delete()
         return Response({'Message' : 'Successfully deleted item/s'}, status=status.HTTP_204_NO_CONTENT)
     
 class RatingView(viewsets.Modelviewset):
