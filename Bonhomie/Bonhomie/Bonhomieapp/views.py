@@ -1,9 +1,10 @@
+from django.utils import timezone
 from django.shortcuts import render
 from rest_framework import generics, viewsets, status
-from .models import User, Category, Products, Order, Orderitem, Cart
+from .models import User, Category, Products, Order, Orderitem, Cart, Promotions
 from .models import Ratings
 from .serializers import UserSerializer, CategorySerializer, ProductSeriliazer, OrderSerializer, OrderItemSerializer, CartSerializer
-from .serializers import RatingSerializer
+from .serializers import RatingSerializer, PromotionSerializer
 from decimal import Decimal
 from rest_framework.response import Response
 from rest_framework import status
@@ -106,5 +107,37 @@ class CheckoutSessionViewSet(viewsets.ViewSet):
         )
 
         return Response({'url': checkout_session.url})
+    
+class PromotionView(generics.ListCreateAPIView):
+    queryset = Promotions.objects.allI()
+    serializer_class = PromotionSerializer
+    
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        
+        active_promotions = queryset.filter(start_date__lte=timezone.now(), end_date__gte=timezone.now())
+        products_in_promotion = Products.objects.filter(productpromotion__promotion__in=active_promotions)
+        
+        discounted_prices = {}
+        for product in products_in_promotion:
+            for promotion in active_promotions:
+                discounted_prices[{product.id, promotion.id}] = promotion.calculate_discount_price(product.price)
+        
+        data = {
+            
+            'promotions': serializer.data,
+            'discounted_prices': discounted_prices,
+            
+        }
+    
+        return Response(data)
+    
+class PromotionDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Promotions.objects.all()
+    serializer_class = PromotionSerializer
+
+    
+    
     
         

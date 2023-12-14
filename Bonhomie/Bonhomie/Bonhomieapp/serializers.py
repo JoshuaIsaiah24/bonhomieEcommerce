@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import User, Category, Products, Order, Orderitem, Cart
 from .models import Address, PaymentMethod, Payment, Ratings, DiscountCode
-from .models import ShippingCarriers, ShippingMethod, Shipping, Promotions
+from .models import Shipping, Promotions
 
 
 class UserSerializer(serializers.Serializer):
@@ -57,7 +57,15 @@ class RatingSerializer(serializers.Serializer):
         model = Ratings
         fields = '__all__'
 
-
+class ShippingSerializer(serializers.Serializer):
+    class Meta:
+        model = Shipping
+        fields = '__all__'
+        
+class PromotionSerializer(serializers.Serializer):
+    class Meta:
+        model = Promotions
+        fields = '__all__'
 
     
     
