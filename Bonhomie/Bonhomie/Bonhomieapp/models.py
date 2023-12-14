@@ -103,4 +103,9 @@ class Promotions(models.Model):
     promotion_name = models.CharField(max_length=255, db_index=True)
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
-    discount_rate = models.IntegerField()
+    discount_rate = models.IntegerField(max_digits=5, decimal_places=2)
+    
+    def calculate_discount_price(self, price):
+        return price - (price *(self.discount_rate / 100))
+    
+    
