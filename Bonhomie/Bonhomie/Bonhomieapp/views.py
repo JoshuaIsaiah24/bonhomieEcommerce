@@ -86,7 +86,7 @@ class CartView(generics.ListCreateAPIView):
         Cart.objects.filter(user=self.request.user).delete()
         return Response({'Message' : 'Successfully deleted item/s'}, status=status.HTTP_204_NO_CONTENT)
     
-class RatingView(viewsets.Modelviewset):
+class RatingView(viewsets.ModelViewSet):
     queryset = Ratings.objects.all()
     serializer_class = RatingSerializer
     
@@ -119,7 +119,7 @@ class CheckoutSessionViewSet(viewsets.ViewSet):
         return Response({'url': checkout_session.url})
     
 class PromotionView(generics.ListCreateAPIView):
-    queryset = Promotions.objects.allI()
+    queryset = Promotions.objects.all()
     serializer_class = PromotionSerializer
     
     def list(self, request, *args, **kwargs):

@@ -17,7 +17,7 @@ class CategorySerializer(serializers.Serializer):
 
 class ProductSeriliazer(serializers.Serializer):
     category = serializers.CharField(source= Category.category, read_only=True)
-    price = serializers.DecimalField(decimal_places=2, source = Products.price, read_only=True)
+    price = serializers.DecimalField(max_digits=6, decimal_places=2, source = Products.price, read_only=True)
     product_name = serializers.CharField(source= Products.product_name, read_only=True)
     
     class Meta:
