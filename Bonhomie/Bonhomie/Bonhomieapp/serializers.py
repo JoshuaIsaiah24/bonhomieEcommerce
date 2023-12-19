@@ -66,6 +66,11 @@ class PromotionSerializer(serializers.Serializer):
     class Meta:
         model = Promotions
         fields = '__all__'
+        
+class DiscountSerializer(serializers.Serializer):
+    class Meta:
+        model = DiscountCode
+        fields = '__all__'
 
     
     

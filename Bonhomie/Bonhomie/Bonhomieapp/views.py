@@ -1,10 +1,10 @@
 from django.utils import timezone
 from django.shortcuts import render
 from rest_framework import generics, viewsets, status
-from .models import User, Category, Products, Order, Orderitem, Cart, Promotions
+from .models import User, Category, Products, Order, Orderitem, Cart, Promotions, Shipping, DiscountCode
 from .models import Ratings
 from .serializers import UserSerializer, CategorySerializer, ProductSeriliazer, OrderSerializer, OrderItemSerializer, CartSerializer
-from .serializers import RatingSerializer, PromotionSerializer
+from .serializers import RatingSerializer, PromotionSerializer, ShippingSerializer, DiscountSerializer
 from decimal import Decimal
 from rest_framework.response import Response
 from rest_framework import status
@@ -136,6 +136,14 @@ class PromotionView(generics.ListCreateAPIView):
 class PromotionDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Promotions.objects.all()
     serializer_class = PromotionSerializer
+
+class ShippingView(generics.ListCreateAPIView):
+    queryset = Shipping.objects.all()
+    serializer_class = ShippingSerializer
+    
+class DiscountView(generics.ListCreateAPIView):
+    queryset = DiscountCode.objects.all()
+    serializer_class = DiscountSerializer
 
     
     
