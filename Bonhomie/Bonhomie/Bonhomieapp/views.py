@@ -50,6 +50,16 @@ class OrderView(generics.ListCreateAPIView):
             
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+    def post(self, request, *args, **kwargs):
+        serializer = DiscountSerializer(data=request.data)
+        if serializer.is_valid():
+            code = serializer.validated_data['code']
+            try:
+                discount = DiscountCode.objects.get(code=code, expiration_date__gte=timezone.now().date())
+                return Response({'message':'discount applied successfully'}, status=status.HTTP_200_OK)
+            except DiscountCode.DoesNotExist:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             
     def calculate_total(self, cart_items):
         total = Decimal(0)
@@ -144,6 +154,8 @@ class ShippingView(generics.ListCreateAPIView):
 class DiscountView(generics.ListCreateAPIView):
     queryset = DiscountCode.objects.all()
     serializer_class = DiscountSerializer
+    
+    
 
     
     
