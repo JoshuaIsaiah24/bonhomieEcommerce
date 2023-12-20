@@ -3,7 +3,7 @@ from django.shortcuts import render
 from rest_framework import generics, viewsets, status
 from .models import User, Category, Products, Order, Orderitem, Cart, Promotions, Shipping, DiscountCode
 from .models import Ratings
-from .serializers import UserSerializer, CategorySerializer, ProductSeriliazer, OrderSerializer, OrderItemSerializer, CartSerializer
+from .serializers import UserSerializer, CategorySerializer, ProductSerializer, OrderSerializer, OrderItemSerializer, CartSerializer
 from .serializers import RatingSerializer, PromotionSerializer, ShippingSerializer, DiscountSerializer
 from decimal import Decimal
 from rest_framework.response import Response
@@ -18,7 +18,7 @@ class CategoryView(generics.ListCreateAPIView):
 
 class Productview(generics.ListCreateAPIView):
     queryset = Products.objects.all()
-    serializer_class = ProductSeriliazer
+    serializer_class = ProductSerializer
 
 class OrderView(generics.ListCreateAPIView):
     serializer_class = OrderSerializer
