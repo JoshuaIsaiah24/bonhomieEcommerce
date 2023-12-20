@@ -13,7 +13,10 @@ class User(models.Model):
 
 class Category(models.Model):
     slug = models.SlugField()
-    category = models.CharField(max_length=255, db_index=True)
+    title = models.CharField(max_length=255, db_index=True)
+    
+    def __str__(self):
+        return self.title
 
 class Products(models.Model):
     product_name = models.CharField(max_length=100, null=False)
@@ -21,8 +24,11 @@ class Products(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2)
     stock = models.IntegerField()
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
-    featuered = models.BooleanField(db_index=True)
+    featured = models.BooleanField(db_index=True)
     on_sale = models.BooleanField(db_index=True)
+    
+    def __str__(self):
+        return self.product_name
 
 class Shipping(models.Model):
     carriers = models.CharField(max_length=100, db_index=True)
