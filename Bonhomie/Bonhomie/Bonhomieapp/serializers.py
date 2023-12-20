@@ -9,7 +9,6 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = '__all__'
 
-
 class CategorySerializer(serializers.ModelSerializer):
      class Meta:
          model = Category
