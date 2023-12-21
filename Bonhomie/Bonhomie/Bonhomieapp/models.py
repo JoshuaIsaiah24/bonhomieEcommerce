@@ -29,6 +29,16 @@ class Products(models.Model):
     
     def __str__(self) -> str:
         return self.product_name
+    
+class Cart(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product_name = models.ForeignKey(Products, on_delete=models.CASCADE)
+    quantity = models.SmallIntegerField()
+    unit_price = models.DecimalField(max_digits=6, decimal_places=2, null=True)
+    total_price =  models.DecimalField(max_digits=6, decimal_places=2)
+    
+    class Meta:
+        unique_together = ('product_name', 'user')
 
 class Shipping(models.Model):
     carriers = models.CharField(max_length=100, db_index=True)
@@ -58,16 +68,6 @@ class Orderitem(models.Model):
     
     class Meta:
         unique_together = ('product_name', 'order_id')
-    
-class Cart(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product_name = models.ForeignKey(Products, on_delete=models.CASCADE)
-    quantity = models.SmallIntegerField()
-    unit_price = models.DecimalField(max_digits=6, decimal_places=2, null=True)
-    total_price =  models.DecimalField(max_digits=6, decimal_places=2)
-    
-    class Meta:
-        unique_together = ('product_name', 'user')
 
 class Address(models.Model):
     shipping_address = models.ForeignKey(User, related_name='shipping_addresses', on_delete=models.CASCADE)
