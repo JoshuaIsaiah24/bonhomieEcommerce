@@ -10,15 +10,14 @@ class UserSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class CategorySerializer(serializers.ModelSerializer):
-     class Meta:
-         model = Category
-         fields = '__all__'
+    class Meta:
+        model = Category
+        fields = ['slug', 'title']
 
 class ProductSerializer(serializers.ModelSerializer):
-    category = serializers.CharField(source= 'category.title', read_only=True)
     class Meta:
         model = Products
-        fields = ['product_name', 'description', 'price', 'stock', 'category', 'featured', 'on_sale']
+        fields = ['id', 'product_name', 'description', 'price', 'stock', 'category', 'featured', 'on_sale']
 
 class OrderSerializer(serializers.ModelSerializer):
     total_price = serializers.DecimalField(max_digits=6, decimal_places=2, read_only= True)

@@ -25,7 +25,7 @@ router.register(r'checkout-session', views.CheckoutSessionViewSet, basename='che
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('store/', include('Bonhomieapp.urls')),
-    path('api/', include(router.urls)),
+    path('store/home/', include('Bonhomieapp.urls')),
+    path('store/checkout/', include(router.urls)),
          
 ]
