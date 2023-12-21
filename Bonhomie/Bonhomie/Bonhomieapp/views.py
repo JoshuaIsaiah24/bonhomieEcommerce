@@ -8,6 +8,8 @@ from .serializers import RatingSerializer, PromotionSerializer, ShippingSerializ
 from decimal import Decimal
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+from django.shortcuts import get_object_or_404
 import stripe
 
 # Create your views here.
@@ -69,6 +71,7 @@ class OrderView(generics.ListCreateAPIView):
     
 class CartView(generics.ListCreateAPIView):
     serializer_class = CartSerializer
+    permission_classes = [IsAuthenticated]
     
     def get_queryset(self):
         user = self.request.user
@@ -76,9 +79,9 @@ class CartView(generics.ListCreateAPIView):
     
     def perform_create(self, serializer):
         product_name = self.request.data.get('product_name')
-        quantity = self.request.data.get('quantity')
-        unit_price = Products.objects.get(pk=product_name).price
-        quantity = int(quantity)
+        quantity = int(self.request.data.get('quantity', 0))
+        product_instance = get_object_or_404(Products, pk=product_name)
+        unit_price = product_instance.price
         total_price = quantity * unit_price
         serializer.save(user=self.request.user, total_price=total_price)
     
