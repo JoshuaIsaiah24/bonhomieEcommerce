@@ -15,19 +15,19 @@ class Category(models.Model):
     slug = models.SlugField()
     title = models.CharField(max_length=255, db_index=True)
     
-    def __str__(self):
+    def __str__(self) -> str:
         return self.title
 
 class Products(models.Model):
-    product_name = models.CharField(max_length=100, null=False)
+    product_name = models.CharField(max_length=100, null=False, db_index=True)
     description = models.CharField(max_length=600, null=False)
-    price = models.DecimalField(max_digits=6, decimal_places=2)
+    price = models.DecimalField(max_digits=6, decimal_places=2, db_index=True)
     stock = models.IntegerField()
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
     featured = models.BooleanField(db_index=True)
     on_sale = models.BooleanField(db_index=True)
     
-    def __str__(self):
+    def __str__(self) -> str:
         return self.product_name
 
 class Shipping(models.Model):
