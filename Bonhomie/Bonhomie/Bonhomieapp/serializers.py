@@ -38,7 +38,9 @@ class OrderItemSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class CartSerializer(serializers.ModelSerializer):
-    user = serializers.CharField(source = User.username, read_only=True)
+    user = serializers.CharField(source = 'user.username', read_only=True)
+    product_name = serializers.CharField(source = 'products.product_name', read_only=True)
+    unit_price = serializers.DecimalField(max_digits=6,decimal_places=2, source = 'products.price', read_only=True)
     
     class Meta:
         model= Cart

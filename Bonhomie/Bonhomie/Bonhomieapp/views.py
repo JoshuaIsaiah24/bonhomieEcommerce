@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.utils import timezone
 from django.shortcuts import render
 from rest_framework import generics, viewsets, status
@@ -80,10 +81,10 @@ class CartView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         product_name = self.request.data.get('product_name')
         quantity = int(self.request.data.get('quantity', 0))
-        product_instance = get_object_or_404(Products, pk=product_name)
+        product_instance = get_object_or_404(Products, product_name=product_name)
         unit_price = product_instance.price
         total_price = quantity * unit_price
-        serializer.save(user=self.request.user, total_price=total_price)
+        serializer.save(user=self.request.user, product=product_instance, total_price=total_price)
     
     def delete(self,request):
         Cart.objects.filter(user=self.request.user).delete()
@@ -157,7 +158,10 @@ class ShippingView(generics.ListCreateAPIView):
 class DiscountView(generics.ListCreateAPIView):
     queryset = DiscountCode.objects.all()
     serializer_class = DiscountSerializer
-    
+
+
+def index (request):
+    return render(request, 'index.html')
     
 
     
