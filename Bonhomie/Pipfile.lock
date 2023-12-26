@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "8de99af764eeedd24511b3a5bc32ddbed81a9f366f1759a3db8af9b667eceb22"
+            "sha256": "c2a4fa8a3828aca607022860640daf3c8f1c560003c224f9ce52967e05a6309c"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -231,6 +231,15 @@
             "markers": "python_version >= '3.10'",
             "version": "==5.0"
         },
+        "django-jazzmin": {
+            "hashes": [
+                "sha256:5bb07055cf19183030724f976904fd8b6337559727959340a43832fab0531812",
+                "sha256:fb554c2d564649c65243b13385121fdbdda58521f49544f9d7cb9c414a4908d4"
+            ],
+            "index": "pypi",
+            "markers": "python_full_version >= '3.6.2'",
+            "version": "==2.6.0"
+        },
         "django-templated-mail": {
             "hashes": [
                 "sha256:8db807effebb42a532622e2d142dfd453dafcd0d7794c4c3332acb90656315f9",
@@ -367,12 +376,12 @@
         },
         "stripe": {
             "hashes": [
-                "sha256:42b4aa5162e45f889afaa40fc1eccfb9ec551c616e1620f700c19a11ae8e62eb",
-                "sha256:84e5e430835a4b0cd4fd2a57ce3853269d1db3439111cda6b6ed752e349cf4a1"
+                "sha256:57e2414ad17fe3444188573fb2e26903cd27dbd92791feda7f0688382fb4c840",
+                "sha256:e789b89be1068dc86e036f53bb44734df6858dcff5ff603ef2850d2e1a17ca24"
             ],
             "index": "pypi",
             "markers": "python_version >= '3.6'",
-            "version": "==7.9.0"
+            "version": "==7.10.0"
         },
         "typing-extensions": {
             "hashes": [
