@@ -10,3 +10,7 @@ The goal of this project is to showcase my skill in creating the backend layer o
 6. Users cart empties when ordering or can select which existing item on the cart to order.
 7. Users can track order and order check each items on the order.
 8. Users can leave reviews and comments for their feedback to the item ordered.
+
+#UPDATE
+
+My vision now is to create the full stack website of an e-commerce website.
