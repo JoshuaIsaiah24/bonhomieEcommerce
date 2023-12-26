@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -83,7 +84,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'bonhomie',
         'USER': 'root',
-        'PASSWORD': '1',
+        'PASSWORD': 'P@sswordyourface1234',
         'HOST': '127.0.0.1',
         'PORT': '3306',
         'OPTIONS': {
@@ -146,6 +147,15 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+JAZZMIN_SETTINGS = {
+    
+    "site_header": "Bonhomie",
+    "copyright": "Bonhomiebasics.com",
+    #'site_logo': '',
+    
+}
+
+
 REST_FRAMEWORK = {
     
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -154,3 +164,4 @@ REST_FRAMEWORK = {
     ),
     
 }
+
