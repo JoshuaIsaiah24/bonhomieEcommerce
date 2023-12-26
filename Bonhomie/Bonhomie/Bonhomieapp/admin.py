@@ -4,7 +4,10 @@ from .models import Cart, Address, PaymentMethod, Payment, Ratings, DiscountCode
 
 # Register your models here.
 
-admin.site.register(User)
+class UserAdmin(admin.ModelAdmin):
+    list_display = ['username', 'email']
+
+admin.site.register(User, UserAdmin)
 admin.site.register(Category)
 admin.site.register(Products)
 admin.site.register(Shipping)
