@@ -160,11 +160,11 @@ class DiscountView(generics.ListCreateAPIView):
     serializer_class = DiscountSerializer
 
 
-def index (request):
+def index(request):
     return render(request, 'index.html')
-    
 
-    
+def register(request):
+    return render(request, 'sign-up.html')
     
     
         

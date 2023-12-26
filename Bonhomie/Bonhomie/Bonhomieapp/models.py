@@ -1,15 +1,21 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AbstractUser
 from datetime import datetime
 
 # Create your models here.
 
-class User(models.Model):
+class User(AbstractUser):
     username = models.CharField (max_length=100, null=False)
-    email = models.EmailField(max_length=255, null=False)
+    email = models.EmailField(max_length=255, null=False, unique=True)
     password = models.CharField(max_length=100, null=False)
     shipping_address = models.CharField(max_length=600, null=False)
     billing_address = models.CharField(max_length=255, null=False)
+    
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ['username']
+    
+    def __str__(self) -> str:
+        return self.username
 
 class Category(models.Model):
     slug = models.SlugField()
