@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-    <link link href= "{% static 'stylesheetsign.css' %}" type="text/css" rel="stylesheet"/>
+    <link href= "{% static 'stylesheetsign.css' %}" type="text/css" rel="stylesheet"/>
     <title>User Sign-up</title>
 </head>
 <body>
@@ -15,6 +15,7 @@
     <div class="cont">
         <div class="form sign-in">
             <h2>Welcome</h2>
+            {{form}}
             <label>
                 <span>Email</span>
                 <input type="email" />
@@ -42,23 +43,24 @@
                     <span class="m--in">Sign In</span>
                 </div>
             </div>
-            <div class="form sign-up">
-                <h2>Create your Account</h2>
-                <label>
+            <form method="post" action="{% url 'sign up' %}">
+                {% csrf_token %}
+                {{forms.as_p}}
+                <!--<h2>Create your Account</h2>-->
+                <!--<label>
                     <span>Name</span>
                     <input type="text" />
                 </label>
-                <label>
-                    <span>Email</span>
+                <label>-->
+                    <!--<span>Email</span>
                     <input type="email" />
                 </label>
                 <label>
                     <span>Password</span>
                     <input type="password" />
-                </label>
-                <button type="button" class="submit">Sign Up</button>
-                
-            </div>
+                </label>-->
+                <button type="submit" class="submit">Sign Up</button>  
+            </form>
         </div>
     </div>
 

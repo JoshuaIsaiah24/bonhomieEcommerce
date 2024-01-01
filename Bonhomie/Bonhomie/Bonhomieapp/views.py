@@ -6,6 +6,7 @@ from .models import User, Category, Products, Order, Orderitem, Cart, Promotions
 from .models import Ratings
 from .serializers import UserSerializer, CategorySerializer, ProductSerializer, OrderSerializer, OrderItemSerializer, CartSerializer
 from .serializers import RatingSerializer, PromotionSerializer, ShippingSerializer, DiscountSerializer
+from .forms import UserCreationForm
 from decimal import Decimal
 from rest_framework.response import Response
 from rest_framework import status
@@ -164,7 +165,8 @@ def index(request):
     return render(request, 'index.html')
 
 def register(request):
-    return render(request, 'sign-up.html')
-    
-    
-        
+    forms = UserCreationForm()
+    context = {
+        'forms': forms,
+    }
+    return render(request, 'sign-up.html', context)
