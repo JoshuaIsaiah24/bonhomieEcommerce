@@ -4,14 +4,17 @@ from django.shortcuts import render
 from rest_framework import generics, viewsets, status
 from .models import User, Category, Products, Order, Orderitem, Cart, Promotions, Shipping, DiscountCode
 from .models import Ratings
-from .serializers import UserSerializer, CategorySerializer, ProductSerializer, OrderSerializer, OrderItemSerializer, CartSerializer
+from .serializers import CategorySerializer, ProductSerializer, OrderSerializer, OrderItemSerializer, CartSerializer
 from .serializers import RatingSerializer, PromotionSerializer, ShippingSerializer, DiscountSerializer
-from .forms import UserCreationForm
+from .forms import UserRegistrationForm
 from decimal import Decimal
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
+from django.contrib import messages
+from django.contrib.auth import login, authenticate
+from django.shortcuts import redirect
 import stripe
 
 # Create your views here.
@@ -165,7 +168,23 @@ def index(request):
     return render(request, 'index.html')
 
 def register(request):
-    forms = UserCreationForm()
+    if request.method == "POST":
+        forms = UserRegistrationForm(request.POST)
+        if forms.is_valid():
+            new_user = forms.save()
+            user = authenticate(username=forms.cleaned_data['username'], password=forms.cleaned_data['password1'])
+            
+            if user:
+                login(request, user)
+                messages.success(request, f"Hey {user.username}, your account was created successfully.")
+                return redirect("index:home")
+            else:
+                messages.warning(request, "There was an issue logging you in. Please try again.")
+        else:
+            messages.warning(request, "Form is not valid. Please check the entered data.")
+    else:
+        forms = UserRegistrationForm()
+    
     context = {
         'forms': forms,
     }

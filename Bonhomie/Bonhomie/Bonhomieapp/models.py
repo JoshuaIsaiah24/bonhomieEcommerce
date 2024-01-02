@@ -4,12 +4,10 @@ from datetime import datetime
 
 # Create your models here.
 
-class User(AbstractUser):
-    username = models.CharField (max_length=100, null=False)
+class CustomUser(AbstractUser):
+    username = models.CharField(max_length=100)
     email = models.EmailField(max_length=255, null=False, unique=True)
     password = models.CharField(max_length=100, null=False)
-    shipping_address = models.CharField(max_length=600, null=False)
-    billing_address = models.CharField(max_length=255, null=False)
     
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ['username']
@@ -37,15 +35,12 @@ class Products(models.Model):
         return self.product_name
     
 class Cart(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     product_name = models.ForeignKey(Products, on_delete=models.CASCADE)
     quantity = models.SmallIntegerField()
     unit_price = models.DecimalField(max_digits=6, decimal_places=2, null=True)
     total_price =  models.DecimalField(max_digits=6, decimal_places=2)
     
-    class Meta:
-        unique_together = ('product_name', 'user')
-
 class Shipping(models.Model):
     carriers = models.CharField(max_length=100, db_index=True)
     rates = models.DecimalField(max_digits=3, decimal_places=2)
@@ -53,7 +48,7 @@ class Shipping(models.Model):
 
     
 class Order(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     order_date = models.DateTimeField(db_index=True, auto_now_add=True)
     order_id = models.CharField(max_length=10, unique=True)
     total_price = models.DecimalField(max_digits=6, decimal_places=2)
@@ -75,12 +70,12 @@ class Orderitem(models.Model):
     class Meta:
         unique_together = ('product_name', 'order_id')
 
-class Address(models.Model):
-    shipping_address = models.ForeignKey(User, related_name='shipping_addresses', on_delete=models.CASCADE)
-    billing_address = models.ForeignKey(User, related_name='billing_addresses', on_delete=models.CASCADE)
+#class Address(models.Model):
+    #shipping_address = models.ForeignKey(User, related_name='shipping_addresses', on_delete=models.CASCADE)
+    #billing_address = models.ForeignKey(User, related_name='billing_addresses', on_delete=models.CASCADE)
 
 class PaymentMethod(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     payment_method= models.CharField(max_length=255, db_index=True)
     card_number = models.CharField(max_length=17, null=False)
     expiration_date = models.DateField()
@@ -100,7 +95,7 @@ class Payment(models.Model):
         return f"{self.user.username} - {self.amount} - {self.status}"
 
 class Ratings(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     product_name = models.ForeignKey(Products, on_delete=models.CASCADE)
     rating = models.IntegerField(default=0)
     comment = models.TextField(max_length=1000, null=False)

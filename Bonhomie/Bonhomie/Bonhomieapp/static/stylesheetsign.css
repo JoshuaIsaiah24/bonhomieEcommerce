@@ -286,8 +286,8 @@ input {
 }
 
 .sign-up {
-    -webkit-transform: translate3d(-900px, 0, 0);
-    transform: translate3d(-900px, 0, 0);
+    -webkit-transform: translate3d(-450px, 0, 0);
+    transform: translate3d(-450px, 0, 0);
 }
 
 .cont.s--signup .sign-up {
