@@ -15,7 +15,6 @@
     <div class="cont">
         <div class="form sign-in">
             <h2>Welcome</h2>
-            {{form}}
             <label>
                 <span>Email</span>
                 <input type="email" />
@@ -43,23 +42,10 @@
                     <span class="m--in">Sign In</span>
                 </div>
             </div>
-            <form method="post" action="{% url 'sign up' %}">
+            <form method="post" action="{% url 'sign-up' %}" class="sign-up">
                 {% csrf_token %}
-                {{forms.as_p}}
-                <!--<h2>Create your Account</h2>-->
-                <!--<label>
-                    <span>Name</span>
-                    <input type="text" />
-                </label>
-                <label>-->
-                    <!--<span>Email</span>
-                    <input type="email" />
-                </label>
-                <label>
-                    <span>Password</span>
-                    <input type="password" />
-                </label>-->
-                <button type="submit" class="submit">Sign Up</button>  
+                {{ forms.as_p }}
+                <button type="submit" class="submit">Sign Up</button>
             </form>
         </div>
     </div>
