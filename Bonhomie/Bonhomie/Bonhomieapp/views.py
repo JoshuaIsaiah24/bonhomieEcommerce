@@ -15,6 +15,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.shortcuts import redirect
+from django.urls import reverse
 import stripe
 
 # Create your views here.
@@ -173,11 +174,10 @@ def register(request):
         if forms.is_valid():
             new_user = forms.save()
             user = authenticate(username=forms.cleaned_data['username'], password=forms.cleaned_data['password1'])
-            
             if user:
                 login(request, user)
                 messages.success(request, f"Hey {user.username}, your account was created successfully.")
-                return redirect("index:home")
+                return redirect("Bonhomie:index")
             else:
                 messages.warning(request, "There was an issue logging you in. Please try again.")
         else:
