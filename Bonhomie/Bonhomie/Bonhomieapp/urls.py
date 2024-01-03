@@ -1,8 +1,10 @@
 from django.urls import path
 from . import views
 
+app_name = 'Bonhomie'
+
 urlpatterns = [
-    path('index', views.index, name='index'),
+    path('index', views.index, name='home'),
     path('sign-up', views.register, name='sign-up'),
     path('category', views.CategoryView.as_view()),
     path('products', views.Productview.as_view()),
