@@ -42,7 +42,7 @@
                     <span class="m--in">Sign In</span>
                 </div>
             </div>
-            <form method="post" action="{% url 'sign-up' %}" class="sign-up">
+            <form method="post" action="{% url 'Bonhomie:sign-up' %}" class="sign-up">
                 {% csrf_token %}
                 {{ forms.as_p }}
                 <button type="submit" class="submit">Sign Up</button>

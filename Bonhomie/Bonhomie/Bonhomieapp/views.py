@@ -177,7 +177,7 @@ def register(request):
             if user:
                 login(request, user)
                 messages.success(request, f"Hey {user.username}, your account was created successfully.")
-                return redirect("Bonhomie:index")
+                return redirect("Bonhomie:app")
             else:
                 messages.warning(request, "There was an issue logging you in. Please try again.")
         else:
